@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Forex News Alert</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 450px;
+        margin: 50px auto;
+        padding: 20px;
+        border-radius: 10px;
+        background: #f4f4f4;
+      }
+      h2 {
+        text-align: center;
+      }
+      input,
+      button {
+        padding: 10px;
+        width: 100%;
+        margin-top: 10px;
+      }
+      .msg {
+        margin-top: 10px;
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Welcome to Forex News Alerts</h2>
+    <p>Subscribe to receive forex-related news that impacts global markets.</p>
+
+    <form method="POST">
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter your email"
+        required
+      />
+      <button type="submit">Subscribe</button>
+    </form>
+
+    {% if message %}
+    <p class="msg">{{ message }}</p>
+    {% endif %}
+  </body>
+</html>

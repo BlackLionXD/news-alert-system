@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Daily Market News</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .article {
+        margin-bottom: 25px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 15px;
+      }
+      .article img {
+        max-width: 100%;
+        height: auto;
+        margin: 10px 0;
+      }
+      .source {
+        color: gray;
+        font-size: 0.9em;
+      }
+    </style>
+  </head>
+  <body>
+    <h2 style="color: #2e86c1">Your Daily Market News Update</h2>
+    {% for article in articles %}
+    <div class="article">
+      <h3>{{ article.title }}</h3>
+      <p class="source">
+        Source: {{ article.source }} | Published: {{ article.published_at }}
+      </p>
+      {% if article.image_url %}
+      <img src="{{ article.image_url }}" alt="News image" />
+      {% endif %}
+      <p>{{ article.description or article.snippet }}</p>
+      <a href="{{ article.url }}" target="_blank">Read full article</a>
+    </div>
+    {% endfor %}
+  </body>
+</html>

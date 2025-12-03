@@ -1,0 +1,10 @@
+
+
+
+
+feedparser
+Flask
+python-dotenv
+requests
+firebase-cl
+schedule
