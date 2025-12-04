@@ -1,25 +1,21 @@
 
 
 
-import os
-import json
 import firebase_admin
 from firebase_admin import credentials, firestore
 
-firebase_key = os.getenv("FIREBASE_KEY")
-if not firebase_key:
-    raise ValueError("FIREBASE_KEY environment variable is not set.")
-
-cred_dict = json.loads(firebase_key)
-cred = credentials.Certificate(cred_dict)
+# Initialize Firebase
+cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
+# Add subscriber email
 def add_email(email):
     doc_ref = db.collection("subscribers").document(email)
     doc_ref.set({"email": email})
 
+# Get all subscriber emails
 def get_all_emails():
-    docs = db.collection("subscribers").stream()
-    return [doc.id for doc in docs]
+    subscribers = db.collection("subscribers").stream()
+    return [doc.to_dict()['email'] for doc in subscribers]

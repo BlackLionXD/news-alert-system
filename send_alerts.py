@@ -42,14 +42,14 @@ def send_daily_alerts():
         send_email(sub, "Your Daily Market News Update", payload["data"])
 
 # Schedule the task to run every day at 08:00 AM
-schedule.every().day.at("08:00").do(send_daily_alerts)
-
-if __name__ == "__main__":
-    print("Scheduler started. Press Ctrl+C to stop.")
-    while True:
-        schedule.run_pending()
-        time.sleep(60)
-
+# schedule.every().day.at("08:00").do(send_daily_alerts)
 
 # if __name__ == "__main__":
-#     send_daily_alerts()
+#     print("Scheduler started. Press Ctrl+C to stop.")
+#     while True:
+#         schedule.run_pending()
+#         time.sleep(60)
+
+
+if __name__ == "__main__":
+    send_daily_alerts()

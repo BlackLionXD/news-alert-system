@@ -1,19 +1,89 @@
-<body>
-  <h2 style="color: #2e86c1">Your Daily Market News Update</h2>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Market News Updates</title>
 
-  {% if error_message %}
-  <p style="color: red; font-weight: bold">{{ error_message }}</p>
-  {% endif %} {% for article in articles %}
-  <div class="article">
-    <h3>{{ article.title }}</h3>
-    <p class="source">
-      Source: {{ article.source }} | Published: {{ article.published_at }}
-    </p>
-    {% if article.image_url %}
-    <img src="{{ article.image_url }}" alt="News image" />
-    {% endif %}
-    <p>{{ article.description or article.snippet }}</p>
-    <a href="{{ article.url }}" target="_blank">Read full article</a>
-  </div>
-  {% endfor %}
-</body>
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "Arial", sans-serif;
+        background: #ffe2e2;
+      }
+
+      .content-area {
+        padding: 20px;
+        max-width: 900px;
+        margin: auto;
+      }
+
+      .news-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        animation: fadeUp 0.6s ease both;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(25px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .news-image {
+        width: 100%;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="content-area">
+      <h2 class="text-center mb-4 text-primary fw-bold">
+        Your Daily Market News Update
+      </h2>
+
+      {% if error_message %}
+      <p class="text-danger fw-bold text-center">{{ error_message }}</p>
+      {% endif %} {% for article in articles %}
+      <div class="card news-card mb-4">
+        <h4 class="fw-bold">{{ article.title }}</h4>
+
+        <p class="text-muted small">
+          Source: {{ article.source }} • {{ article.published_at }}
+        </p>
+
+        {% if article.image_url %}
+        <img src="{{ article.image_url }}" class="news-image" />
+        {% endif %}
+
+        <p class="mt-2">{{ article.description or article.snippet }}</p>
+
+        <a
+          href="{{ article.url }}"
+          class="btn btn-primary mt-2"
+          target="_blank"
+          style="width: 180px"
+        >
+          Read Full Article
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>
