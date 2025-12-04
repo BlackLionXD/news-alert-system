@@ -111,3 +111,7 @@ python test_fetch_emails.py
 This runs the subscription page and alerts viewer.
 
 python app.py
+# Demonstration
+![Screenshot_5-12-2025_25333_127 0 0 1](https://github.com/user-attachments/assets/c6c1fe5d-fab3-4817-8ab7-62965e0b52a1)
+![Screenshot_5-12-2025_25225_127 0 0 1](https://github.com/user-attachments/assets/05a56325-e0da-4999-83c0-96b0e95b5a26)
+
