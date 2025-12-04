@@ -1,5 +1,3 @@
-
-
 import schedule
 import time
 from firebase_db import get_all_emails
@@ -7,9 +5,14 @@ from news_fetcher import fetch_marketaux_news, filter_news_by_keywords, format_n
 from email_sender import send_email
 
 keywords = ["usd","forex","eur","market","jpy","trading","dollar","stocks"]
+
 def send_daily_alerts():
     subscribers = get_all_emails()
     print(f"Found {len(subscribers)} subscribers.")
+
+    if not subscribers:
+        print("No subscribers found. Skipping sending emails.")
+        return
 
     # Fetch news
     news = fetch_marketaux_news(limit=20)
@@ -19,11 +22,10 @@ def send_daily_alerts():
     # Format
     payload = format_news_payload(filtered)
 
-    # Convert to readable email text
+    # Convert to readable email text (optional, for reference)
     body = """
     <h2 style="color:#2E86C1;">Your Daily Market News Update</h2>
     """
-
     for article in payload["data"]:
         body += f"""
         <div style="margin-bottom: 25px; border-bottom: 1px solid #ddd; padding-bottom: 15px;">
@@ -35,10 +37,19 @@ def send_daily_alerts():
         </div>
         """
 
-    # Send to all
+    # Send to all subscribers
     for sub in subscribers:
         send_email(sub, "Your Daily Market News Update", payload["data"])
 
+# Schedule the task to run every day at 08:00 AM
+schedule.every().day.at("08:00").do(send_daily_alerts)
 
 if __name__ == "__main__":
-    send_daily_alerts()
+    print("Scheduler started. Press Ctrl+C to stop.")
+    while True:
+        schedule.run_pending()
+        time.sleep(60)
+
+
+# if __name__ == "__main__":
+#     send_daily_alerts()

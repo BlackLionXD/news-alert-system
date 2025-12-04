@@ -1,78 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Daily Market News</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        padding: 20px;
-        background-color: #f9f9f9;
-      }
-      h2 {
-        color: #2e86c1;
-      }
-      .article {
-        margin-bottom: 25px;
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 15px;
-        background-color: #fff;
-        padding: 15px;
-        border-radius: 5px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      }
-      .article img {
-        max-width: 100%;
-        height: auto;
-        margin: 10px 0;
-        border-radius: 3px;
-      }
-      .source {
-        color: gray;
-        font-size: 0.9em;
-      }
-      a {
-        color: #2e86c1;
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
+<body>
+  <h2 style="color: #2e86c1">Your Daily Market News Update</h2>
 
-      /* Responsive */
-      @media screen and (max-width: 600px) {
-        body {
-          padding: 10px;
-        }
-        .article {
-          padding: 10px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <h2>Your Daily Market News Update</h2>
-    {% for article in articles %}
-    <div class="article">
-      <h3>{{ article.title }}</h3>
-      <p class="source">
-        Source: {{ article.source }} | Published: {{ article.published_at }}
-      </p>
-      {% if article.image_url %}
-      <img
-        src="{{ article.image_url }}"
-        alt="News image"
-        onerror="this.onerror=null;this.src='https://via.placeholder.com/600x300?text=No+Image';"
-      />
-      {% else %}
-      <img
-        src="https://via.placeholder.com/600x300?text=No+Image"
-        alt="No image available"
-      />
-      {% endif %}
-      <p>{{ article.description or article.snippet }}</p>
-      <a href="{{ article.url }}" target="_blank">Read full article</a>
-    </div>
-    {% endfor %}
-  </body>
-</html>
+  {% if error_message %}
+  <p style="color: red; font-weight: bold">{{ error_message }}</p>
+  {% endif %} {% for article in articles %}
+  <div class="article">
+    <h3>{{ article.title }}</h3>
+    <p class="source">
+      Source: {{ article.source }} | Published: {{ article.published_at }}
+    </p>
+    {% if article.image_url %}
+    <img src="{{ article.image_url }}" alt="News image" />
+    {% endif %}
+    <p>{{ article.description or article.snippet }}</p>
+    <a href="{{ article.url }}" target="_blank">Read full article</a>
+  </div>
+  {% endfor %}
+</body>
