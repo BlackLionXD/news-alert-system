@@ -1,10 +1,6 @@
-
-
-
-
+firebase-admin
 feedparser
 Flask
 python-dotenv
 requests
-firebase-cl
 schedule

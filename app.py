@@ -1,6 +1,11 @@
+
+
+
 from flask import Flask, render_template, request
 from firebase_db import add_email, get_all_emails
 from news_fetcher import fetch_marketaux_news, filter_news_by_keywords, format_news_payload
+from email_sender import send_email
+
 
 app = Flask(__name__)
 
@@ -53,6 +58,24 @@ def alerts():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
+def send_daily_alerts():
+    subscribers = get_all_emails()
+    if not subscribers:
+        return "No subscribers found."
+    try:
+        news = fetch_marketaux_news(limit=20)
+        filtered = filter_news_by_keywords(news.get("data", []), keywords)
+        payload = format_news_payload(filtered)
+        for sub in subscribers:
+            send_email(sub, "Your Daily Market News Update", payload.get("data", []))
+        return f"Sent alerts to {len(subscribers)} subscribers."
+    except Exception as e:
+        return f"Error sending alerts: {e}"
 
+@app.route("/send-alerts", methods=["GET"])
+def trigger_alerts():
+    result = send_daily_alerts()
+    print(result)  # Logs on server
+    return result, 200    
 if __name__ == "__main__":
     app.run(debug=True)
