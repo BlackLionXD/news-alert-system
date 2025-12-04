@@ -29,14 +29,26 @@ def subscribers():
     return {"subscribers": emails}
 keywords = ["usd","forex","eur","market","jpy","trading","dollar","stocks"]
 
+# @app.route("/alerts")
+# def alerts():
+#     # Fetch and filter news
+#     news = fetch_marketaux_news(limit=20)
+#     filtered = filter_news_by_keywords(news["data"], keywords)
+#     payload = format_news_payload(filtered)
+
+#     # Filter out articles with missing or empty image_url
+#     articles_with_images = [article for article in payload["data"] if article.get("image_url")]
+
+#     # Pass to template
+#     return render_template("alerts.html", articles=articles_with_images)
 @app.route("/alerts")
 def alerts():
     # Fetch and filter news
     news = fetch_marketaux_news(limit=20)
     filtered = filter_news_by_keywords(news["data"], keywords)
     payload = format_news_payload(filtered)
-    
-    # Pass to template
+
+    # Pass all articles to template (we handle broken/missing images in template)
     return render_template("alerts.html", articles=payload["data"])
 
 
