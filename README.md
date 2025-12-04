@@ -45,24 +45,7 @@ Users can subscribe with their email, and the system automatically sends curated
 
 - Cron-based automation (schedule library)
 
-# 📁 Folder Structure
-- news-alert-system/
-│── app.py
-│── email_sender.py
-│── firebase_db.py
-│── news_fetcher.py
-│── send_alerts.py
-│── daily_alerts_scheduler.py
-│── test_news.py
-│── test_email.py
-│── test_fetch_emails.py
-│── requirements.txt
-│── .gitignore
-│── templates/
-│   ├── index.html
-│   └── alerts.html
-│── serviceAccountKey.json (DO NOT UPLOAD)
-│── .env (DO NOT UPLOAD)
+
 
 # 🛠️ Requirements
 
@@ -77,4 +60,54 @@ Users can subscribe with their email, and the system automatically sends curated
 - Gmail App Password (if sending emails via Gmail)
 
 
-📥 Required Files to Add Manually
+# 📥 Required Files to Add Manually
+
+These MUST exist in project root:
+
+- ✅ 1. .env
+
+Create a file named .env:
+
+EMAIL_ADDRESS=your@gmail.com
+EMAIL_PASSWORD=your_app_password
+MARKETAUX_API_TOKEN=your_marketaux_token
+
+- ✅ 2. serviceAccountKey.json
+
+Download from Firebase Console → Project Settings → Service Accounts.
+
+Never commit .env or serviceAccountKey.json to GitHub.
+
+# ▶️ How to Run the Project (Step-by-Step)
+- 1️⃣ Clone the project
+git clone https://github.com/BlackLionXD/news-alert-system.git
+cd news-alert-system
+
+- 2️⃣ Create and activate virtual environment
+python -m venv venv
+venv\Scripts\activate     # Windows
+# or
+# source venv/bin/activate   # macOS/Linux
+
+- 3️⃣ Install dependencies
+pip install -r requirements.txt
+
+- 4️⃣ Add your .env and serviceAccountKey.json files
+
+(See required files above)
+
+# 🧪 Optional: Test everything first
+Test News API
+python test_news.py
+
+Test Sending Email
+python test_email.py
+
+Test Firestore subscribers
+python test_fetch_emails.py
+
+# 🌐 Run the Flask Web App
+
+This runs the subscription page and alerts viewer.
+
+python app.py
