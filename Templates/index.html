@@ -75,14 +75,81 @@
         <h3 class="text-center mb-3">Forex News Alerts</h3>
         <p class="text-center">Stay updated with market-moving forex news.</p>
 
-        <form method="POST">
+        <form method="POST" id="subscription-form">
+          <!-- Email input -->
           <input
             type="email"
             name="email"
-            class="form-control"
+            class="form-control mb-3"
             placeholder="Enter your email"
-            required
           />
+
+          <!-- Accordion for keywords -->
+          <div class="accordion mb-3" id="keywordsAccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingKeywords">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseKeywords"
+                  aria-expanded="false"
+                  aria-controls="collapseKeywords"
+                >
+                  Select Keywords
+                </button>
+              </h2>
+              <div
+                id="collapseKeywords"
+                class="accordion-collapse collapse"
+                aria-labelledby="headingKeywords"
+                data-bs-parent="#keywordsAccordion"
+              >
+                <div class="accordion-body">
+                  <!-- Keywords checklist -->
+                  <div
+                    id="keywords-list"
+                    class="border rounded p-2 mb-3"
+                    style="max-height: 150px; overflow-y: auto"
+                  >
+                    {% for kw in keywords %}
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="keywords"
+                        value="{{ kw }}"
+                        id="kw-{{ loop.index }}"
+                      />
+                      <label class="form-check-label" for="kw-{{ loop.index }}"
+                        >{{ kw }}</label
+                      >
+                    </div>
+                    {% endfor %}
+                  </div>
+
+                  <!-- Optional Add New Keyword -->
+                  <div class="input-group mb-3">
+                    <input
+                      type="text"
+                      id="new-keyword"
+                      class="form-control"
+                      placeholder="Add new keyword (optional)"
+                    />
+                    <button
+                      type="button"
+                      id="add-keyword-btn"
+                      class="btn btn-outline-secondary"
+                    >
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subscribe button -->
           <button type="submit" class="btn btn-primary mt-3 w-100">
             Subscribe
           </button>
@@ -94,21 +161,56 @@
       </div>
     </div>
 
+    <!-- JavaScript to handle adding new keywords dynamically -->
+    <script>
+      const addBtn = document.getElementById("add-keyword-btn");
+      const newKeywordInput = document.getElementById("new-keyword");
+      const keywordsList = document.getElementById("keywords-list");
+
+      addBtn.addEventListener("click", () => {
+        const val = newKeywordInput.value.trim();
+        if (!val) return;
+
+        // Prevent duplicates
+        const existing = Array.from(
+          document.querySelectorAll("input[name='keywords']")
+        ).map((i) => i.value.toLowerCase());
+        if (existing.includes(val.toLowerCase())) {
+          alert("Keyword already exists");
+          return;
+        }
+
+        // Add new checkbox dynamically (optional, default checked)
+        const index =
+          document.querySelectorAll("input[name='keywords']").length + 1;
+        const div = document.createElement("div");
+        div.classList.add("form-check");
+        div.innerHTML = `
+          <input class="form-check-input" type="checkbox" name="keywords" value="${val}" id="kw-${index}" checked>
+          <label class="form-check-label" for="kw-${index}">${val}</label>
+        `;
+        keywordsList.appendChild(div);
+        newKeywordInput.value = "";
+      });
+    </script>
+
     <!-- VANTA.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
-
     <script>
       VANTA.BIRDS({
         el: "#vanta-bg",
         mouseControls: true,
         touchControls: true,
         gyroControls: false,
-        backgroundColor: 0xffe2e2, // pink background
+        backgroundColor: 0xffe2e2,
         color1: 0xf70000,
         birdSize: 1.5,
         wingSpan: 40.0,
       });
     </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

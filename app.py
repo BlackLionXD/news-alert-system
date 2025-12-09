@@ -12,14 +12,15 @@ def home():
     try:
         if request.method == "POST":
             email = request.form.get("email")
+            selected_keywords = request.form.getlist("keywords")  # <-- list of selected keywords
             if email:
-                add_email(email)
+                add_email(email, selected_keywords)  # updated function
                 message = "You have successfully subscribed!"
     except Exception as e:
         print(f"Error subscribing email: {e}")
         message = "Something went wrong. Please try again."
 
-    return render_template("index.html", message=message)
+    return render_template("index.html", message=message, keywords=keywords)
 
 @app.route("/subscribers")
 def subscribers():
@@ -55,4 +56,4 @@ def page_not_found(e):
     return render_template("404.html"), 404
 
 if __name__ == "__main__":
-    app.run(debug=False,host='0.0.0.0')
+    app.run(debug=True)
